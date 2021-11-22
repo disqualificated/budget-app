@@ -1,11 +1,13 @@
 <template>
-	<div class="total-value" :class="priceColor">Balance: {{ total }}</div>
+	<div class="total-value" :class="priceColor(total)">Balance: {{ total }}</div>
 </template>
 
 <script>
+import { priceColor } from './mixins/priceColor';
 
 export default {
   name: 'TotalBalance',
+  mixins: [priceColor],
   components: {
   },
   props: {
@@ -14,19 +16,6 @@ export default {
 		default: 0
 	}
   },
-  data() {
-	return {
-		
-	}
-  },
-  computed: {
-	priceColor() {
-		return {
-			'negative': this.total < 0,
-			'positive': this.total > 0
-		}
-	}
-  }
 }
 </script>
 

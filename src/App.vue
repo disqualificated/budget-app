@@ -7,10 +7,11 @@
 		:title="dialogTilte"
 		:visible.sync="dialogVisible"
 		width="30%"
+		ref="deleteItemDialog"
 	>
 			<span slot="footer" class="dialog-footer">
 				<el-button @click="dialogVisible = false">Cancel</el-button>
-				<el-button type="primary" @click="dialogVisible = false">Confirm</el-button>
+				<el-button type="primary" @click="deleteItemEvent">Confirm</el-button>
 			</span>
 	</ElDialog>
   </div>
@@ -31,8 +32,9 @@ export default {
   },
   data() {
 	return {
-		dialogTilte: 'Do you want to remove this item?',
+		dialogTilte: 'Remove this item?',
 		dialogVisible: false,
+		currentItem: null
 	}
   },
   computed: {
@@ -47,7 +49,13 @@ export default {
   methods: {
 	...mapActions('items', ['addNewItem', 'deleteItem']),
 	onDeleteItem(id) {
-		this.deleteItem(id);
+		this.dialogVisible = true;
+		this.currentItem = id;
+	},
+	deleteItemEvent() {
+		this.deleteItem(this.currentItem);
+		this.dialogVisible = false;
+		this.currentItem = null;
 	},
 	onFormSubmit(data) {
 		data.type == 'INCOME' ? data.value : data.value * -1;
@@ -58,7 +66,8 @@ export default {
 		};
 
 		this.addNewItem(newItem);
-	}
+	},
+	
   },
 }
 </script>
@@ -71,5 +80,12 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+.positive {
+	color: #67C23A;
+}
+.negative {
+	color: #F56C6C;
 }
 </style>

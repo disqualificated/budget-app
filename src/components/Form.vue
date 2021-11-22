@@ -23,7 +23,15 @@
 export default {
 	name: 'Form',
 	data() {
+		let validateValue = (rule, value, callback) => {
+			if (value === 0) {
+				callback(new Error('Please input a number bigger than 0'));
+			} else {
+				callback();
+			}
+		};
 		return {
+			
 			formData: {
 				type: 'INCOME',
 				comment: '',
@@ -34,7 +42,8 @@ export default {
 				comment: [{ required: true, message: 'Please type a comment', trigger: 'blur' }],
 				value: [
 					{ required: true, message: 'Please type a value', trigger: 'blur' },
-					{ type: 'number', message: 'Value must be a number', trigger: 'blur' }
+					{ type: 'number', message: 'Value must be a number', trigger: 'blur' },
+					{ validator: validateValue, trigger: 'blur' }
 				],
 			}
 		}
